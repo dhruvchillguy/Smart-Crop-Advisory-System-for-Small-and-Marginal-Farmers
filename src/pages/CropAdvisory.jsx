@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { generateRecommendations, getSuitabilityLabel } from '../services/advisoryEngine';
 import { indianStates, soilTypes, seasons, irrigationOptions } from '../data/referenceData';
 import { saveRecommendation } from '../services/storage';
+import { CheckIcon, AlertTriangleIcon, InfoIcon, SaveIcon } from '../components/Icons';
 
 function CropAdvisory({ profile, onNavigate }) {
   const [formData, setFormData] = useState({
@@ -77,13 +78,14 @@ function CropAdvisory({ profile, onNavigate }) {
   return (
     <div>
       <div className="page-header">
-        <h1>🌾 Smart Crop Advisory</h1>
+        <h1>Smart Crop Advisory</h1>
         <p>Enter your farm conditions to get crop recommendations</p>
       </div>
 
       {saveMessage && (
-        <div className="success-message">
-          ✅ {saveMessage}
+        <div className="success-message" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <CheckIcon size={18} color="var(--color-success)" />
+          <span>{saveMessage}</span>
         </div>
       )}
 
@@ -162,14 +164,16 @@ function CropAdvisory({ profile, onNavigate }) {
 
           {error && (
             <div className="alert alert-danger">
-              <span className="alert-icon">⚠️</span>
+              <span className="alert-icon">
+                <AlertTriangleIcon size={18} />
+              </span>
               <span>{error}</span>
             </div>
           )}
 
           <div style={{ display: 'flex', gap: '0.75rem' }}>
             <button type="submit" className="btn btn-primary btn-lg">
-              🌾 Get Crop Recommendations
+              Get Crop Recommendations
             </button>
             <button type="button" className="btn btn-outline" onClick={handleClear}>
               Clear
@@ -186,7 +190,9 @@ function CropAdvisory({ profile, onNavigate }) {
               Recommended Crops ({results.recommendations.length} results)
             </h2>
             <div className="alert alert-info" style={{ marginBottom: '1rem' }}>
-              <span className="alert-icon">💡</span>
+              <span className="alert-icon">
+                <InfoIcon size={18} />
+              </span>
               <div>
                 <strong>How to read:</strong> Crops are ranked by suitability. 
                 "Highly Suitable" means the crop matches most of your conditions. 
@@ -227,7 +233,7 @@ function CropAdvisory({ profile, onNavigate }) {
               {/* Why it suits */}
               {crop.reasons.length > 0 && (
                 <div style={{ marginBottom: '0.75rem' }}>
-                  <strong style={{ color: 'var(--color-success)' }}>✅ Why it may suit your conditions:</strong>
+                  <strong style={{ color: 'var(--color-success)' }}>Why it may suit your conditions:</strong>
                   <ul style={{ marginLeft: '1.5rem', marginTop: '0.25rem' }}>
                     {crop.reasons.map((r, i) => <li key={i} style={{ marginBottom: '0.25rem' }}>{r}</li>)}
                   </ul>
@@ -237,7 +243,7 @@ function CropAdvisory({ profile, onNavigate }) {
               {/* Warnings */}
               {crop.warnings.length > 0 && (
                 <div style={{ marginBottom: '0.75rem' }}>
-                  <strong style={{ color: 'var(--color-warning)' }}>⚠️ Things to consider:</strong>
+                  <strong style={{ color: 'var(--color-warning)' }}>Things to consider:</strong>
                   <ul style={{ marginLeft: '1.5rem', marginTop: '0.25rem' }}>
                     {crop.warnings.map((w, i) => <li key={i} style={{ marginBottom: '0.25rem' }}>{w}</li>)}
                   </ul>
@@ -247,32 +253,32 @@ function CropAdvisory({ profile, onNavigate }) {
               <div className="divider" />
 
               <div className="rec-detail">
-                <span className="rec-detail-label">🌱 Sowing Guidance</span>
+                <span className="rec-detail-label">Sowing Guidance</span>
                 <span className="rec-detail-value">{crop.sowingGuidance}</span>
               </div>
               <div className="rec-detail">
-                <span className="rec-detail-label">💧 Water Needs</span>
+                <span className="rec-detail-label">Water Needs</span>
                 <span className="rec-detail-value">{crop.waterNeeds}</span>
               </div>
               <div className="rec-detail">
-                <span className="rec-detail-label">⏱️ Growing Duration</span>
+                <span className="rec-detail-label">Growing Duration</span>
                 <span className="rec-detail-value">{crop.duration}</span>
               </div>
               <div className="rec-detail">
-                <span className="rec-detail-label">⚠️ Precautions</span>
+                <span className="rec-detail-label">Precautions</span>
                 <span className="rec-detail-value">{crop.precautions}</span>
               </div>
 
               <div className="rec-actions">
                 <button className="btn btn-success btn-sm" onClick={() => handleSave(crop)}>
-                  💾 Save This Recommendation
+                  Save This Recommendation
                 </button>
               </div>
             </div>
           ))}
 
           <div className="disclaimer">
-            <strong>⚠️ Important:</strong> {results.disclaimer}
+            <strong>Important Notice:</strong> {results.disclaimer}
           </div>
         </div>
       )}

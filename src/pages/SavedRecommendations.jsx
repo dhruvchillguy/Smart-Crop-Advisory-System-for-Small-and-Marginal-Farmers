@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getSavedRecommendations, deleteRecommendation } from '../services/storage';
 import { getSuitabilityLabel } from '../services/advisoryEngine';
+import { SavedIcon, CheckIcon, AlertTriangleIcon } from '../components/Icons';
 
 function SavedRecommendations() {
   const [recommendations, setRecommendations] = useState([]);
@@ -36,7 +37,7 @@ function SavedRecommendations() {
     return (
       <div>
         <div className="page-header">
-          <h1>📋 Saved Recommendations</h1>
+          <h1>Saved Recommendations</h1>
         </div>
         <div className="loading">Loading saved recommendations...</div>
       </div>
@@ -46,20 +47,24 @@ function SavedRecommendations() {
   return (
     <div>
       <div className="page-header">
-        <h1>📋 Saved Recommendations</h1>
+        <h1>Saved Recommendations</h1>
         <p>Your previously saved crop recommendations</p>
       </div>
 
       {message && (
         <div className={`alert alert-${message.type === 'success' ? 'success' : 'danger'}`}>
-          <span className="alert-icon">{message.type === 'success' ? '✅' : '❌'}</span>
+          <span className="alert-icon">
+            {message.type === 'success' ? <CheckIcon size={18} /> : <AlertTriangleIcon size={18} />}
+          </span>
           <span>{message.text}</span>
         </div>
       )}
 
       {recommendations.length === 0 ? (
         <div className="empty-state">
-          <div className="empty-icon">📋</div>
+          <div className="empty-icon">
+            <SavedIcon size={30} />
+          </div>
           <h3>No saved recommendations yet</h3>
           <p>Go to the Crop Advice section, get recommendations, and save the ones you like.</p>
         </div>
@@ -84,24 +89,25 @@ function SavedRecommendations() {
               {/* Conditions it was generated for */}
               {rec.conditions && (
                 <div style={{ marginBottom: '0.75rem', fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-                  📍 {rec.conditions.state} | 🌍 {rec.conditions.soilType} soil | 📅 {rec.conditions.season} season
-                  {rec.conditions.irrigation && ` | 💧 ${rec.conditions.irrigation} irrigation`}
+                  {rec.conditions.state} • {rec.conditions.soilType} soil • {rec.conditions.season} season
+                  {rec.conditions.irrigation && ` • ${rec.conditions.irrigation} irrigation`}
                 </div>
               )}
 
               {/* Reasons */}
               {rec.reasons && rec.reasons.length > 0 && (
                 <div style={{ marginBottom: '0.5rem' }}>
-                  <strong style={{ color: 'var(--color-success)' }}>✅ Suitable because:</strong>
+                  <strong style={{ color: 'var(--color-success)' }}>Suitable because:</strong>
                   <ul style={{ marginLeft: '1.5rem', marginTop: '0.25rem' }}>
                     {rec.reasons.map((r, i) => <li key={i}>{r}</li>)}
                   </ul>
                 </div>
               )}
 
+              {/* Warnings */}
               {rec.warnings && rec.warnings.length > 0 && (
                 <div style={{ marginBottom: '0.5rem' }}>
-                  <strong style={{ color: 'var(--color-warning)' }}>⚠️ Consider:</strong>
+                  <strong style={{ color: 'var(--color-warning)' }}>Consider:</strong>
                   <ul style={{ marginLeft: '1.5rem', marginTop: '0.25rem' }}>
                     {rec.warnings.map((w, i) => <li key={i}>{w}</li>)}
                   </ul>
@@ -111,15 +117,15 @@ function SavedRecommendations() {
               <div className="divider" />
 
               <div className="rec-detail">
-                <span className="rec-detail-label">🌱 Sowing</span>
+                <span className="rec-detail-label">Sowing</span>
                 <span className="rec-detail-value">{rec.sowingGuidance}</span>
               </div>
               <div className="rec-detail">
-                <span className="rec-detail-label">💧 Water</span>
+                <span className="rec-detail-label">Water</span>
                 <span className="rec-detail-value">{rec.waterNeeds}</span>
               </div>
               <div className="rec-detail">
-                <span className="rec-detail-label">⏱️ Duration</span>
+                <span className="rec-detail-label">Duration</span>
                 <span className="rec-detail-value">{rec.duration}</span>
               </div>
 
@@ -132,7 +138,7 @@ function SavedRecommendations() {
                   onClick={() => handleDelete(rec.id, rec.cropName)}
                   style={{ marginLeft: 'auto' }}
                 >
-                  🗑️ Delete
+                  Delete
                 </button>
               </div>
             </div>

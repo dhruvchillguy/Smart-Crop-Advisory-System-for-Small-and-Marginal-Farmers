@@ -1,4 +1,12 @@
 import React from 'react';
+import {
+  AreaIcon,
+  SoilIcon,
+  WaterIcon,
+  LocationIcon,
+  CalendarIcon,
+  InfoIcon,
+} from '../components/Icons';
 
 function Dashboard({ profile, onNavigate }) {
   const farmerName = profile?.farmerName || 'Farmer';
@@ -20,13 +28,15 @@ function Dashboard({ profile, onNavigate }) {
   return (
     <div>
       <div className="page-header">
-        <h1>🌾 Welcome, {farmerName}!</h1>
-        <p>Smart Crop Advisory System — Helping Indian farmers make better crop decisions</p>
+        <h1>Welcome, {farmerName}</h1>
+        <p>Smart Crop Advisory System — Decision support for Indian small and marginal farmers</p>
       </div>
 
       {/* Season Banner */}
       <div className="alert alert-info" style={{ marginBottom: '1.5rem' }}>
-        <span className="alert-icon">📅</span>
+        <span className="alert-icon">
+          <CalendarIcon size={18} />
+        </span>
         <div>
           <strong>Current Season:</strong> {currentSeason}
           <br />
@@ -40,7 +50,9 @@ function Dashboard({ profile, onNavigate }) {
         <div className="card-grid">
           <div className="card">
             <div className="stat-card">
-              <span className="stat-icon">📏</span>
+              <span className="stat-icon">
+                <AreaIcon size={20} />
+              </span>
               <div className="stat-info">
                 <h3>Farm Area</h3>
                 <p>{farmArea}</p>
@@ -49,7 +61,9 @@ function Dashboard({ profile, onNavigate }) {
           </div>
           <div className="card">
             <div className="stat-card">
-              <span className="stat-icon">🌍</span>
+              <span className="stat-icon">
+                <SoilIcon size={20} />
+              </span>
               <div className="stat-info">
                 <h3>Soil Type</h3>
                 <p>{soilType === 'Not set' ? soilType : soilType.charAt(0).toUpperCase() + soilType.slice(1)}</p>
@@ -58,7 +72,9 @@ function Dashboard({ profile, onNavigate }) {
           </div>
           <div className="card">
             <div className="stat-card">
-              <span className="stat-icon">💧</span>
+              <span className="stat-icon">
+                <WaterIcon size={20} />
+              </span>
               <div className="stat-info">
                 <h3>Irrigation</h3>
                 <p>{irrigation}</p>
@@ -67,7 +83,9 @@ function Dashboard({ profile, onNavigate }) {
           </div>
           <div className="card">
             <div className="stat-card">
-              <span className="stat-icon">📍</span>
+              <span className="stat-icon">
+                <LocationIcon size={20} />
+              </span>
               <div className="stat-info">
                 <h3>Location</h3>
                 <p>{profile?.village || 'Not set'}</p>
@@ -82,16 +100,16 @@ function Dashboard({ profile, onNavigate }) {
         <h2 className="section-title">Quick Actions</h2>
         <div className="quick-actions">
           <button className="btn btn-primary btn-lg" onClick={() => onNavigate('advisory')}>
-            🌾 Get Crop Advice
+            Get Crop Advice
           </button>
           <button className="btn btn-outline btn-lg" onClick={() => onNavigate('profile')}>
-            👨‍🌾 {profile ? 'Update' : 'Set Up'} My Farm
+            {profile ? 'Update' : 'Set Up'} My Farm
           </button>
           <button className="btn btn-outline btn-lg" onClick={() => onNavigate('saved')}>
-            📋 View Saved Advice
+            View Saved Advice
           </button>
           <button className="btn btn-outline btn-lg" onClick={() => onNavigate('weather')}>
-            🌤️ Weather Advisory
+            Weather Advisory
           </button>
         </div>
       </div>
@@ -100,7 +118,7 @@ function Dashboard({ profile, onNavigate }) {
       <div className="section">
         <div className="card">
           <div className="card-header">
-            <h3 className="card-title">🌤️ Weather Summary</h3>
+            <h3 className="card-title">Weather Summary</h3>
             <span className="badge badge-warning">Sample Data</span>
           </div>
           <div className="weather-display">
@@ -122,16 +140,18 @@ function Dashboard({ profile, onNavigate }) {
             </div>
           </div>
           <p style={{ marginTop: '0.75rem', fontSize: '0.875rem', color: '#888' }}>
-            ⚠️ This is sample data for demonstration. Visit the Weather section for details or enter your own data.
+            Note: This is sample data for demonstration. Visit the Weather section for details or enter your own data.
           </p>
         </div>
       </div>
 
       {!profile && (
         <div className="alert alert-warning">
-          <span className="alert-icon">👋</span>
+          <span className="alert-icon">
+            <InfoIcon size={18} />
+          </span>
           <div>
-            <strong>Get started!</strong> Set up your farm profile to get personalised crop recommendations.
+            <strong>Get started:</strong> Set up your farm profile to get personalised crop recommendations.
             <br />
             <button className="btn btn-sm btn-warning" style={{ marginTop: '0.5rem' }} onClick={() => onNavigate('profile')}>
               Set Up Farm Profile
@@ -141,7 +161,7 @@ function Dashboard({ profile, onNavigate }) {
       )}
 
       <div className="disclaimer">
-        <strong>⚠️ Disclaimer:</strong> This application provides general agricultural guidance. 
+        <strong>Agricultural Disclaimer:</strong> This application provides general agricultural guidance. 
         Actual decisions should consider local conditions, soil test results, market prices, and 
         advice from your nearest Krishi Vigyan Kendra (KVK) or agriculture office.
       </div>

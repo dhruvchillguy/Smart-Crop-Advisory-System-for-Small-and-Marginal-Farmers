@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { fertilizerGuide } from '../data/referenceData';
 import cropData from '../data/cropData';
+import { FertilizerIcon, AlertTriangleIcon, InfoIcon } from '../components/Icons';
 
 function FertilizerGuide() {
   const [selectedCrop, setSelectedCrop] = useState('');
@@ -12,12 +13,14 @@ function FertilizerGuide() {
   return (
     <div>
       <div className="page-header">
-        <h1>🧪 Fertilizer Guide</h1>
+        <h1>Fertilizer Guide</h1>
         <p>Get general fertilizer guidance for your crop at different growth stages</p>
       </div>
 
       <div className="alert alert-warning">
-        <span className="alert-icon">⚠️</span>
+        <span className="alert-icon">
+          <AlertTriangleIcon size={18} />
+        </span>
         <div>
           <strong>Important:</strong> Fertilizer doses vary greatly based on soil test results, 
           crop variety, and local conditions. Always follow doses recommended by your local 
@@ -45,7 +48,9 @@ function FertilizerGuide() {
 
       {!selectedCrop && (
         <div className="empty-state">
-          <div className="empty-icon">🧪</div>
+          <div className="empty-icon">
+            <FertilizerIcon size={30} />
+          </div>
           <h3>Select a crop above</h3>
           <p>We will show you stage-wise fertilizer guidance and safety tips.</p>
         </div>
@@ -55,14 +60,16 @@ function FertilizerGuide() {
         <div>
           {isDefault && (
             <div className="alert alert-info">
-              <span className="alert-icon">ℹ️</span>
+              <span className="alert-icon">
+                <InfoIcon size={18} />
+              </span>
               <span>Showing general fertilizer guidance. Specific data for "{selectedCrop}" will be added in future updates.</span>
             </div>
           )}
 
           {/* Growth Stages */}
           <div className="card" style={{ marginBottom: '1rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '1rem' }}>📅 Stage-wise Fertilizer Application for {selectedCrop}</h3>
+            <h3 className="card-title" style={{ marginBottom: '1rem' }}>Stage-wise Fertilizer Application for {selectedCrop}</h3>
             {guide.stages.map((stage, index) => (
               <div key={index} style={{
                 padding: '1rem',
@@ -90,7 +97,7 @@ function FertilizerGuide() {
                     <strong style={{ fontSize: '1.05rem' }}>{stage.stage}</strong>
                     <p style={{ margin: '0.25rem 0', color: 'var(--color-text-secondary)' }}>{stage.nutrients}</p>
                     <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
-                      <em>💡 {stage.note}</em>
+                      <em>Note: {stage.note}</em>
                     </p>
                   </div>
                 </div>
@@ -100,13 +107,13 @@ function FertilizerGuide() {
 
           {/* General Advice */}
           <div className="card" style={{ marginBottom: '1rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '0.75rem' }}>📋 General Advice</h3>
+            <h3 className="card-title" style={{ marginBottom: '0.75rem' }}>General Advice</h3>
             <p style={{ lineHeight: '1.7' }}>{guide.generalAdvice}</p>
           </div>
 
           {/* Safety Tips */}
           <div className="card" style={{ marginBottom: '1rem' }}>
-            <h3 className="card-title" style={{ marginBottom: '0.75rem' }}>🛡️ Safety Tips</h3>
+            <h3 className="card-title" style={{ marginBottom: '0.75rem' }}>Safety Tips</h3>
             <p style={{ lineHeight: '1.7' }}>{guide.safetyTips}</p>
           </div>
 
@@ -115,7 +122,7 @@ function FertilizerGuide() {
             background: 'var(--color-success-light)',
             borderColor: '#bbf7d0',
           }}>
-            <h3 className="card-title" style={{ marginBottom: '0.75rem', color: '#166534' }}>🧪 Get a Soil Test</h3>
+            <h3 className="card-title" style={{ marginBottom: '0.75rem', color: '#166534' }}>Soil Testing Recommendation</h3>
             <p style={{ lineHeight: '1.7', color: '#166534' }}>
               The best way to know exactly which fertilizers your soil needs is to get a <strong>soil test</strong>.
               Visit your nearest Soil Testing Laboratory (usually available at the district agriculture office or KVK).

@@ -123,7 +123,6 @@ export const fertilizerGuide = {
 export const weatherPrecautions = {
   hot: {
     condition: 'Hot weather (above 35°C)',
-    icon: '☀️',
     precautions: [
       'Water crops early in the morning or late in the evening to reduce evaporation',
       'Use mulch (straw, dry leaves) around plants to keep soil cool and moist',
@@ -134,7 +133,6 @@ export const weatherPrecautions = {
   },
   warm: {
     condition: 'Warm weather (25–35°C)',
-    icon: '🌤️',
     precautions: [
       'Good growing weather for most kharif crops',
       'Maintain regular watering schedule',
@@ -144,7 +142,6 @@ export const weatherPrecautions = {
   },
   mild: {
     condition: 'Mild weather (15–25°C)',
-    icon: '⛅',
     precautions: [
       'Good conditions for rabi crops like wheat, mustard, and chickpea',
       'Reduce irrigation frequency as evaporation is lower',
@@ -154,7 +151,6 @@ export const weatherPrecautions = {
   },
   cold: {
     condition: 'Cold weather (below 15°C)',
-    icon: '🥶',
     precautions: [
       'Protect tender crops from frost — cover with straw or plastic sheets at night',
       'Light irrigation in the evening can protect crops from frost damage',
@@ -164,7 +160,6 @@ export const weatherPrecautions = {
   },
   rainy: {
     condition: 'Rainy conditions',
-    icon: '🌧️',
     precautions: [
       'Ensure drainage channels are clear to prevent waterlogging',
       'Delay fertilizer application until rain stops — nutrients wash away',

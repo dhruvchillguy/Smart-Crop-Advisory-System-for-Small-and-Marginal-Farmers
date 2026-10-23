@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { weatherPrecautions } from '../data/referenceData';
+import { InfoIcon } from '../components/Icons';
 
 function Weather() {
   const [weatherData, setWeatherData] = useState({
@@ -33,13 +34,15 @@ function Weather() {
   return (
     <div>
       <div className="page-header">
-        <h1>🌤️ Weather Advisory</h1>
+        <h1>Weather Advisory</h1>
         <p>Check weather conditions and get farming precautions</p>
       </div>
 
       {/* Data Source Notice */}
       <div className="alert alert-warning">
-        <span className="alert-icon">📢</span>
+        <span className="alert-icon">
+          <InfoIcon size={18} />
+        </span>
         <div>
           <strong>Sample / Manual Data:</strong> Weather information below is entered manually for demonstration.
           This is NOT live weather data. For actual weather, check your local weather service or Kisan portal.
@@ -132,7 +135,7 @@ function Weather() {
             <div className="weather-label">Rainfall / month</div>
           </div>
           <div className="weather-item">
-            <div className="weather-value">{precautions.icon} {precautions.condition.split('(')[0]}</div>
+            <div className="weather-value">{precautions.condition.split('(')[0].trim()}</div>
             <div className="weather-label">Condition</div>
           </div>
         </div>
@@ -141,12 +144,12 @@ function Weather() {
       {/* Precautions */}
       <div className="card" style={{ marginBottom: '1.5rem' }}>
         <h3 className="card-title" style={{ marginBottom: '1rem' }}>
-          {precautions.icon} Farming Precautions — {precautions.condition}
+          Farming Precautions — {precautions.condition}
         </h3>
         <ul className="guidance-list">
           {precautions.precautions.map((p, i) => (
             <li key={i}>
-              <span className="guidance-icon">👉</span>
+              <span className="guidance-icon">•</span>
               <span>{p}</span>
             </li>
           ))}
@@ -157,12 +160,12 @@ function Weather() {
       {rainPrecautions && (
         <div className="card" style={{ marginBottom: '1.5rem' }}>
           <h3 className="card-title" style={{ marginBottom: '1rem' }}>
-            🌧️ Rainfall Precautions
+            Rainfall Precautions
           </h3>
           <ul className="guidance-list">
             {rainPrecautions.precautions.map((p, i) => (
               <li key={i}>
-                <span className="guidance-icon">👉</span>
+                <span className="guidance-icon">•</span>
                 <span>{p}</span>
               </li>
             ))}
@@ -172,31 +175,31 @@ function Weather() {
 
       {/* Irrigation advice based on weather */}
       <div className="card">
-        <h3 className="card-title" style={{ marginBottom: '1rem' }}>💧 Irrigation Considerations</h3>
+        <h3 className="card-title" style={{ marginBottom: '1rem' }}>Irrigation Considerations</h3>
         <ul className="guidance-list">
           {category === 'hot' && (
             <>
-              <li><span className="guidance-icon">💧</span><span>Water early morning (before 8 AM) or late evening (after 5 PM) to reduce evaporation losses</span></li>
-              <li><span className="guidance-icon">💧</span><span>Consider drip irrigation if available — it saves 30–50% water compared to flood irrigation</span></li>
-              <li><span className="guidance-icon">💧</span><span>Mulching around plants reduces soil temperature and water evaporation</span></li>
+              <li><span className="guidance-icon">•</span><span>Water early morning (before 8 AM) or late evening (after 5 PM) to reduce evaporation losses</span></li>
+              <li><span className="guidance-icon">•</span><span>Consider drip irrigation if available — it saves 30–50% water compared to flood irrigation</span></li>
+              <li><span className="guidance-icon">•</span><span>Mulching around plants reduces soil temperature and water evaporation</span></li>
             </>
           )}
           {category === 'warm' && (
             <>
-              <li><span className="guidance-icon">💧</span><span>Maintain regular watering schedule as per crop needs</span></li>
-              <li><span className="guidance-icon">💧</span><span>Check soil moisture before watering — if top 2 inches are dry, irrigate</span></li>
+              <li><span className="guidance-icon">•</span><span>Maintain regular watering schedule as per crop needs</span></li>
+              <li><span className="guidance-icon">•</span><span>Check soil moisture before watering — if top 2 inches are dry, irrigate</span></li>
             </>
           )}
           {category === 'mild' && (
             <>
-              <li><span className="guidance-icon">💧</span><span>Reduce irrigation frequency — evaporation is lower in mild weather</span></li>
-              <li><span className="guidance-icon">💧</span><span>Ensure good drainage to prevent waterlogging in cooler conditions</span></li>
+              <li><span className="guidance-icon">•</span><span>Reduce irrigation frequency — evaporation is lower in mild weather</span></li>
+              <li><span className="guidance-icon">•</span><span>Ensure good drainage to prevent waterlogging in cooler conditions</span></li>
             </>
           )}
           {category === 'cold' && (
             <>
-              <li><span className="guidance-icon">💧</span><span>Light evening irrigation can protect crops from frost damage</span></li>
-              <li><span className="guidance-icon">💧</span><span>Avoid heavy irrigation — cold waterlogged soil damages plant roots</span></li>
+              <li><span className="guidance-icon">•</span><span>Light evening irrigation can protect crops from frost damage</span></li>
+              <li><span className="guidance-icon">•</span><span>Avoid heavy irrigation — cold waterlogged soil damages plant roots</span></li>
             </>
           )}
         </ul>

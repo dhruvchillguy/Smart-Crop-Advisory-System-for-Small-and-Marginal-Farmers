@@ -4,7 +4,7 @@ A secure, offline-capable desktop application built with **Electron**, **React 1
 
 ---
 
-## 🌾 Problem Statement
+## Problem Statement
 
 Small and marginal farmers (owning < 2 hectares) account for over 85% of operational farm holdings in India. They frequently face challenges due to:
 - Limited access to timely, localized agronomic advice.
@@ -16,7 +16,7 @@ This application provides an intuitive, high-contrast, bilingual-friendly deskto
 
 ---
 
-## 🎯 Key Objectives
+## Key Objectives
 
 - **Explainable Crop Selection**: Multi-factor scoring engine matching state, soil texture, season (Kharif/Rabi), irrigation availability, temperature, and rainfall.
 - **Offline-First Resilience**: Full local persistence using Electron IPC with filesystem storage (`userData/smart-crop-data.json`) and graceful browser fallback (`localStorage`).
@@ -26,7 +26,7 @@ This application provides an intuitive, high-contrast, bilingual-friendly deskto
 
 ---
 
-## 🖥️ Application Architecture
+## Application Architecture
 
 ```
 desktop_project/
@@ -37,6 +37,7 @@ desktop_project/
 │   ├── main.jsx            # React root mount
 │   ├── App.jsx             # App layout & view router
 │   ├── components/
+│   │   ├── Icons.jsx       # Reusable accessible SVG icon system
 │   │   └── Sidebar.jsx     # Navigation shell with profile indicator & offline badges
 │   ├── pages/
 │   │   ├── Dashboard.jsx            # Welcome overview, quick stats, farm snapshot
@@ -65,7 +66,7 @@ desktop_project/
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Technology | Version | Purpose |
 | :--- | :--- | :--- | :--- |
@@ -78,7 +79,7 @@ desktop_project/
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - **Node.js** (v18.0.0 or higher recommended)
@@ -97,7 +98,7 @@ npm install
 
 ---
 
-## 💻 Running the Application
+## Running the Application
 
 ### Option A: Desktop Application (Production Mode — Recommended for Demo)
 Builds the frontend bundle and immediately opens the native Electron application:
@@ -121,7 +122,7 @@ Navigate to: `http://localhost:5173`
 
 ---
 
-## 🧪 Automated Testing
+## Automated Testing
 
 The project includes unit and data integrity test suites running on Vitest:
 ```bash
@@ -134,7 +135,7 @@ npm run test:watch
 
 ---
 
-## 📦 Packaging & macOS .DMG Deliverable
+## Packaging & macOS .DMG Deliverable
 
 The desktop application is configured with `electron-builder` to produce an independent, offline macOS disk image (`.dmg`) installer.
 
@@ -160,7 +161,7 @@ Because this application is built for academic examination and submission withou
 
 ---
 
-## 📌 Known Limitations & Agricultural Scope
+## Known Limitations & Agricultural Scope
 
 1. **Rule-Based Agronomic Engine**: The advisory system operates on a transparent, multi-factor rule-based algorithm referencing curated Indian agro-climatic datasets. It intentionally does not fabricate or simulate unverified AI/ML predictions.
 2. **Weather Information**: Currently accepts manual entry and displays clearly labeled sample weather readings. Live weather API integration is planned for future releases when persistent rural connectivity is available.
@@ -174,14 +175,14 @@ Because this application is built for academic examination and submission withou
 
 ---
 
-## 👨‍🏫 Faculty Demonstration Script
+## Faculty Demonstration Script
 
 To present this project to examiners or faculty, follow these sequential steps:
 
 1. **Launch Desktop App**:
    Run `npm run electron:prod`. Point out the native Electron window framing and clean agricultural theme.
 2. **Dashboard Overview**:
-   Highlight the quick stat cards ("Crops in Database: 12", "Active Season: Kharif / Rabi", "Offline Mode: Active").
+   Highlight the quick stat cards ("Farm Area", "Soil Type", "Irrigation", "Location").
 3. **Setup Farm Profile ("My Farm")**:
    - Enter farmer name (e.g., *Ramesh Kumar*), State (*Punjab* or *Uttar Pradesh*), Farm Area (*2.5 Acres*), Soil Type (*Alluvial*), Irrigation (*Yes*).
    - Click **Save Profile**. Show that data persists immediately.
@@ -190,7 +191,7 @@ To present this project to examiners or faculty, follow these sequential steps:
    - Select season (*Rabi*).
    - Click **Get Crop Recommendations**.
    - Show the resulting cards (e.g., *Wheat* with high match percentage, transparent scoring reasons, water requirements, and sowing instructions).
-   - Click **Save This Recommendation**. Notice the toast notification.
+   - Click **Save This Recommendation**. Notice the confirmation message.
 5. **Inspect Saved Recommendations ("Saved Advice")**:
    - Navigate to **Saved Advice** to view the saved Wheat advisory record.
    - Demonstrate deleting or reviewing past advice.
@@ -203,7 +204,7 @@ To present this project to examiners or faculty, follow these sequential steps:
 
 ---
 
-## ⚠️ Agricultural & Technical Disclaimer
+## Agricultural & Technical Disclaimer
 
 > **Educational & Decision-Support Notice:**
 > This desktop application is built as an academic engineering project to demonstrate software architecture, rule-based inference, and offline desktop development for rural settings. 
@@ -211,7 +212,7 @@ To present this project to examiners or faculty, follow these sequential steps:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **MIT License**.
 Developed by **Dhruv Khare** for College Desktop Application Examination.

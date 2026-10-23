@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getProfile, saveProfile } from '../services/storage';
 import { soilTypes, irrigationOptions, indianStates } from '../data/referenceData';
+import { CheckIcon, AlertTriangleIcon } from '../components/Icons';
 
 function FarmerProfile({ profile, onProfileUpdate }) {
   const [formData, setFormData] = useState({
@@ -82,54 +83,56 @@ function FarmerProfile({ profile, onProfileUpdate }) {
     return (
       <div>
         <div className="page-header">
-          <h1>👨‍🌾 My Farm Profile</h1>
+          <h1>My Farm Profile</h1>
           <p>Your farm and contact information</p>
         </div>
 
         {message && (
           <div className={`alert alert-${message.type === 'success' ? 'success' : 'danger'}`}>
-            <span className="alert-icon">{message.type === 'success' ? '✅' : '❌'}</span>
+            <span className="alert-icon">
+              {message.type === 'success' ? <CheckIcon size={18} /> : <AlertTriangleIcon size={18} />}
+            </span>
             <span>{message.text}</span>
           </div>
         )}
 
         <div className="card" style={{ maxWidth: '600px' }}>
           <div className="rec-detail">
-            <span className="rec-detail-label">👤 Name</span>
+            <span className="rec-detail-label">Name</span>
             <span className="rec-detail-value">{formData.farmerName || '—'}</span>
           </div>
           <div className="rec-detail">
-            <span className="rec-detail-label">📍 Village/Location</span>
+            <span className="rec-detail-label">Village / Location</span>
             <span className="rec-detail-value">{formData.village || '—'}</span>
           </div>
           <div className="rec-detail">
-            <span className="rec-detail-label">🗺️ State</span>
+            <span className="rec-detail-label">State</span>
             <span className="rec-detail-value">{formData.state || '—'}</span>
           </div>
           <div className="rec-detail">
-            <span className="rec-detail-label">📏 Farm Area</span>
+            <span className="rec-detail-label">Farm Area</span>
             <span className="rec-detail-value">{formData.farmArea ? `${formData.farmArea} ${formData.farmUnit}` : '—'}</span>
           </div>
           <div className="rec-detail">
-            <span className="rec-detail-label">🌍 Soil Type</span>
+            <span className="rec-detail-label">Soil Type</span>
             <span className="rec-detail-value">{formData.soilType ? formData.soilType.charAt(0).toUpperCase() + formData.soilType.slice(1) : '—'}</span>
           </div>
           <div className="rec-detail">
-            <span className="rec-detail-label">💧 Irrigation</span>
+            <span className="rec-detail-label">Irrigation</span>
             <span className="rec-detail-value">
               {formData.irrigation === 'yes' ? 'Available' : formData.irrigation === 'limited' ? 'Limited' : formData.irrigation === 'no' ? 'Rainfed only' : '—'}
             </span>
           </div>
           {formData.notes && (
             <div className="rec-detail">
-              <span className="rec-detail-label">📝 Notes</span>
+              <span className="rec-detail-label">Notes</span>
               <span className="rec-detail-value">{formData.notes}</span>
             </div>
           )}
 
           <div style={{ marginTop: '1.5rem' }}>
             <button className="btn btn-primary" onClick={() => setIsEditing(true)}>
-              ✏️ Edit Profile
+              Edit Profile
             </button>
           </div>
         </div>
@@ -140,13 +143,15 @@ function FarmerProfile({ profile, onProfileUpdate }) {
   return (
     <div>
       <div className="page-header">
-        <h1>👨‍🌾 {profile ? 'Edit' : 'Set Up'} Farm Profile</h1>
+        <h1>{profile ? 'Edit' : 'Set Up'} Farm Profile</h1>
         <p>{profile ? 'Update your farm information' : 'Tell us about your farm to get better crop advice'}</p>
       </div>
 
       {message && (
         <div className={`alert alert-${message.type === 'success' ? 'success' : 'danger'}`}>
-          <span className="alert-icon">{message.type === 'success' ? '✅' : '❌'}</span>
+          <span className="alert-icon">
+            {message.type === 'success' ? <CheckIcon size={18} /> : <AlertTriangleIcon size={18} />}
+          </span>
           <span>{message.text}</span>
         </div>
       )}
@@ -285,7 +290,7 @@ function FarmerProfile({ profile, onProfileUpdate }) {
 
         <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem' }}>
           <button type="submit" className="btn btn-primary btn-lg">
-            💾 Save Profile
+            Save Profile
           </button>
           {profile && (
             <button type="button" className="btn btn-outline" onClick={() => setIsEditing(false)}>

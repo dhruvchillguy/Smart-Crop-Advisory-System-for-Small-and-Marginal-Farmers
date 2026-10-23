@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AlertTriangleIcon } from '../components/Icons';
 
 function HelpAbout() {
   const [activeTab, setActiveTab] = useState('help');
@@ -6,7 +7,7 @@ function HelpAbout() {
   return (
     <div>
       <div className="page-header">
-        <h1>ℹ️ Help & About</h1>
+        <h1>Help & About</h1>
         <p>Learn how to use this application and understand agricultural terms</p>
       </div>
 
@@ -16,19 +17,19 @@ function HelpAbout() {
           className={`tab-btn ${activeTab === 'help' ? 'active' : ''}`}
           onClick={() => setActiveTab('help')}
         >
-          📖 How to Use
+          How to Use
         </button>
         <button
           className={`tab-btn ${activeTab === 'glossary' ? 'active' : ''}`}
           onClick={() => setActiveTab('glossary')}
         >
-          📚 Farm Terms
+          Farm Terms
         </button>
         <button
           className={`tab-btn ${activeTab === 'about' ? 'active' : ''}`}
           onClick={() => setActiveTab('about')}
         >
-          ℹ️ About
+          About
         </button>
       </div>
 
@@ -93,11 +94,11 @@ function HelpAbout() {
             <h2>Tips for Best Results</h2>
             <div className="card">
               <ul className="guidance-list">
-                <li><span className="guidance-icon">✅</span><span>Fill in as many fields as possible for more accurate recommendations</span></li>
-                <li><span className="guidance-icon">✅</span><span>If you know the temperature and rainfall, enter them for better matching</span></li>
-                <li><span className="guidance-icon">✅</span><span>Always check the "Warnings" section of each recommendation</span></li>
-                <li><span className="guidance-icon">✅</span><span>Save recommendations you are interested in for future reference</span></li>
-                <li><span className="guidance-icon">✅</span><span>Consult your local agriculture office before making final decisions</span></li>
+                <li><span className="guidance-icon">•</span><span>Fill in as many fields as possible for more accurate recommendations</span></li>
+                <li><span className="guidance-icon">•</span><span>If you know the temperature and rainfall, enter them for better matching</span></li>
+                <li><span className="guidance-icon">•</span><span>Always check the "Warnings" section of each recommendation</span></li>
+                <li><span className="guidance-icon">•</span><span>Save recommendations you are interested in for future reference</span></li>
+                <li><span className="guidance-icon">•</span><span>Consult your local agriculture office before making final decisions</span></li>
               </ul>
             </div>
           </div>
@@ -199,7 +200,9 @@ function HelpAbout() {
 
           <div className="help-section">
             <div className="alert alert-danger">
-              <span className="alert-icon">⚠️</span>
+              <span className="alert-icon">
+                <AlertTriangleIcon size={18} />
+              </span>
               <div>
                 <strong>IMPORTANT DISCLAIMER</strong>
                 <p style={{ marginTop: '0.5rem', lineHeight: '1.7' }}>
