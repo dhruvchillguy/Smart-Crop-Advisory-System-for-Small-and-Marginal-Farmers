@@ -132,6 +132,40 @@ npm test
 npm run test:watch
 ```
 
+---
+
+## 📦 Packaging & macOS .DMG Deliverable
+
+The desktop application is configured with `electron-builder` to produce an independent, offline macOS disk image (`.dmg`) installer.
+
+### Packaging Command:
+```bash
+# Build the production bundle and generate macOS .dmg installer
+npm run electron:build
+```
+
+### Deliverable Artifact:
+- **Installer Format**: macOS Disk Image (`.dmg`)
+- **Architecture**: Apple Silicon (`arm64`)
+- **Output Directory**: `desktop_project/release/`
+- **Output Filename**: `Smart Crop Advisory System-1.0.0-arm64.dmg`
+- **File Size**: ~95 MB (includes embedded Electron runtime, Chromium shell, and packaged bundle)
+- **Standalone Application**: `release/mac-arm64/Smart Crop Advisory System.app`
+
+### macOS Gatekeeper & Security Note:
+Because this application is built for academic examination and submission without a paid Apple Developer ID certificate:
+- macOS Gatekeeper may show an *"unidentified developer"* prompt upon first launch.
+- To open on macOS: **Right-click (or Control-click)** the application or installer icon and select **Open**, then confirm **Open** in the dialog.
+- The build has been verified for offline launch and execution on macOS.
+
+---
+
+## 📌 Known Limitations & Agricultural Scope
+
+1. **Rule-Based Agronomic Engine**: The advisory system operates on a transparent, multi-factor rule-based algorithm referencing curated Indian agro-climatic datasets. It intentionally does not fabricate or simulate unverified AI/ML predictions.
+2. **Weather Information**: Currently accepts manual entry and displays clearly labeled sample weather readings. Live weather API integration is planned for future releases when persistent rural connectivity is available.
+3. **Fertilizer Guidance**: Doses are general baseline agronomic recommendations. Farmers are explicitly instructed to cross-reference recommendations with their official Soil Health Card issued by Krishi Vigyan Kendra (KVK).
+
 ### Test Coverage Highlights:
 - **Rule Scoring Accuracy**: Verifies multi-parameter weights for state, soil, season, and water access.
 - **Edge-Case Handling**: Tests missing inputs, incompatible soil-crop pairings, and invalid seasons.

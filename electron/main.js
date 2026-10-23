@@ -2,15 +2,17 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 
-// Data storage path
-const userDataPath = app.getPath('userData');
-const dataFilePath = path.join(userDataPath, 'smart-crop-data.json');
+// Data storage path helper
+function getDataFilePath() {
+  return path.join(app.getPath('userData'), 'smart-crop-data.json');
+}
 
 // Read stored data
 function readData() {
   try {
-    if (fs.existsSync(dataFilePath)) {
-      const raw = fs.readFileSync(dataFilePath, 'utf-8');
+    const filePath = getDataFilePath();
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, 'utf-8');
       return JSON.parse(raw);
     }
   } catch (err) {
@@ -22,7 +24,8 @@ function readData() {
 // Write stored data
 function writeData(data) {
   try {
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
+    const filePath = getDataFilePath();
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
     return true;
   } catch (err) {
     console.error('Error writing data file:', err);
@@ -46,17 +49,15 @@ function createWindow() {
   });
 
   const distPath = path.join(__dirname, '..', 'dist', 'index.html');
-  const isDevMode = process.env.NODE_ENV === 'development' || Boolean(process.env.VITE_DEV_SERVER_URL);
+  const isDevMode = !app.isPackaged && (process.env.NODE_ENV === 'development' || Boolean(process.env.VITE_DEV_SERVER_URL));
 
   if (isDevMode) {
     const devUrl = process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173';
     mainWindow.loadURL(devUrl);
     mainWindow.webContents.openDevTools({ mode: 'detach' });
-  } else if (fs.existsSync(distPath)) {
-    // In production or built preview, load the bundled HTML
-    mainWindow.loadFile(distPath);
   } else {
-    mainWindow.loadURL('http://localhost:5173');
+    // In packaged or production mode, load the bundled HTML directly
+    mainWindow.loadFile(distPath);
   }
 
   mainWindow.setMenuBarVisibility(false);
