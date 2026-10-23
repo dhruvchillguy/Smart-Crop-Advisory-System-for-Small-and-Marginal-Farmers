@@ -1,0 +1,52 @@
+{
+  "name": "smart-crop-advisory-system",
+  "version": "1.0.0",
+  "description": "Smart Crop Advisory System for Small and Marginal Farmers - A desktop application providing crop recommendations, weather advisories, soil guidance, and fertilizer information for Indian farmers.",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "vite build && electron-builder",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["agriculture", "crop-advisory", "farming", "india", "electron", "desktop"],
+  "author": "Dhruv Khare",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.2",
+    "concurrently": "^9.0.1",
+    "electron": "^32.1.2",
+    "electron-builder": "^25.0.5",
+    "vite": "^5.4.8",
+    "vitest": "^2.1.2",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.smartcrop.advisory",
+    "productName": "Smart Crop Advisory System",
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
