@@ -45,19 +45,18 @@ function createWindow() {
     },
   });
 
-  // In development, load Vite dev server
-  if (process.env.NODE_ENV !== 'production' && process.env.VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
-  } else if (process.env.NODE_ENV !== 'production') {
-    mainWindow.loadURL('http://localhost:5173');
-  } else {
-    // In production, load the built files
-    mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
-  }
+  const distPath = path.join(__dirname, '..', 'dist', 'index.html');
+  const isDevMode = process.env.NODE_ENV === 'development' || Boolean(process.env.VITE_DEV_SERVER_URL);
 
-  // Open DevTools in development
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDevMode) {
+    const devUrl = process.env.VITE_DEV_SERVER_URL || 'http://localhost:5173';
+    mainWindow.loadURL(devUrl);
     mainWindow.webContents.openDevTools({ mode: 'detach' });
+  } else if (fs.existsSync(distPath)) {
+    // In production or built preview, load the bundled HTML
+    mainWindow.loadFile(distPath);
+  } else {
+    mainWindow.loadURL('http://localhost:5173');
   }
 
   mainWindow.setMenuBarVisibility(false);
