@@ -1,120 +1,183 @@
 # Smart Crop Advisory System for Small and Marginal Farmers
 
-A desktop application that provides crop recommendations, weather advisories, soil guidance, and fertilizer information specifically designed for Indian small and marginal farmers.
+A secure, offline-capable desktop application built with **Electron**, **React 18**, and **Vite** that provides explainable crop recommendations, weather advisories, soil guidance, and fertilizer management specifically tailored for Indian small and marginal farmers.
 
-## Problem Statement
+---
 
-Small and marginal farmers in India often lack access to timely, relevant agricultural advice. They need simple, easy-to-understand guidance on which crops to grow based on their local conditions including soil type, climate, water availability, and season. This application aims to bridge that gap by providing a user-friendly desktop tool that offers practical crop advisory.
+## 🌾 Problem Statement
 
-## Objectives
+Small and marginal farmers (owning < 2 hectares) account for over 85% of operational farm holdings in India. They frequently face challenges due to:
+- Limited access to timely, localized agronomic advice.
+- Unreliable internet connectivity in rural farmland.
+- Complex agricultural terminology and opaque recommendation systems.
+- Suboptimal crop choices, improper irrigation scheduling, and unbalanced fertilizer application.
 
-- Provide location and condition-based crop recommendations
-- Offer weather-related farming advisories
-- Guide farmers on soil preparation and irrigation
-- Share general fertilizer guidance
-- Allow saving and reviewing past recommendations
-- Present all information in simple, farmer-friendly language
+This application provides an intuitive, high-contrast, bilingual-friendly desktop decision-support system that operates reliably offline.
 
-## Features
+---
 
-- **Dashboard** — Welcome screen with farm overview and quick actions
-- **Smart Crop Advisory** — Rule-based crop recommendations based on region, soil, season, and irrigation
-- **Weather Advisory** — Temperature, rainfall, and farming precautions
-- **Soil & Irrigation Guidance** — Soil preparation and water management tips
-- **Fertilizer Guide** — Growth-stage based nutrient and fertilizer information
-- **Saved Recommendations** — Persistent storage of crop recommendations
-- **Farmer Profile** — Farm and farmer information management
-- **Help & About** — Usage instructions and agricultural glossary
+## 🎯 Key Objectives
 
-## Technology Stack
+- **Explainable Crop Selection**: Multi-factor scoring engine matching state, soil texture, season (Kharif/Rabi), irrigation availability, temperature, and rainfall.
+- **Offline-First Resilience**: Full local persistence using Electron IPC with filesystem storage (`userData/smart-crop-data.json`) and graceful browser fallback (`localStorage`).
+- **Targeted Soil & Irrigation Guidance**: Tailored preparation techniques, drainage requirements, and water management rules for 7 major Indian soil types.
+- **Balanced Fertilizer Advisory**: Growth-stage specific NPK and organic manure recommendations for staple Indian crops.
+- **Farmer-Friendly UI**: Designed with WCAG AA compliant contrast, large touch-friendly typography, and Hindi/English dual terminology.
 
-| Technology | Purpose |
-|-----------|---------|
-| **Electron** | Desktop application shell |
-| **React 18** | Frontend UI framework |
-| **Vite** | Build tooling and dev server |
-| **Node.js** | Application runtime |
-| **localStorage** | Persistent local data storage |
-| **CSS** | Styling and responsive layouts |
+---
 
-## Architecture
+## 🖥️ Application Architecture
 
 ```
 desktop_project/
-├── electron/           # Electron main process
-│   ├── main.js         # Main process entry
-│   └── preload.js      # Secure preload bridge
-├── src/                # React frontend
-│   ├── components/     # Reusable UI components
-│   ├── pages/          # Application pages
-│   ├── services/       # Business logic & data
-│   ├── data/           # Crop knowledge dataset
-│   └── styles/         # CSS stylesheets
-├── tests/              # Automated tests
-├── package.json
-├── vite.config.js
-└── index.html
+├── electron/
+│   ├── main.js             # Electron main process (IPC handlers, secure window management)
+│   └── preload.js          # Context-isolated IPC bridge exposing window.electronAPI
+├── src/
+│   ├── main.jsx            # React root mount
+│   ├── App.jsx             # App layout & view router
+│   ├── components/
+│   │   └── Sidebar.jsx     # Navigation shell with profile indicator & offline badges
+│   ├── pages/
+│   │   ├── Dashboard.jsx            # Welcome overview, quick stats, farm snapshot
+│   │   ├── FarmerProfile.jsx        # Farmer details, landholding, soil & irrigation setup
+│   │   ├── CropAdvisory.jsx         # Multi-factor advisory engine form & scoring display
+│   │   ├── Weather.jsx              # Weather input, temperature alerts & seasonal precautions
+│   │   ├── SoilIrrigation.jsx       # Deep-dive soil characteristics & watering advice
+│   │   ├── FertilizerGuide.jsx      # Stage-wise NPK dosage & safety precautions
+│   │   ├── SavedRecommendations.jsx # Local persistence manager (view, inspect, delete)
+│   │   └── HelpAbout.jsx            # User guide, farming glossary, and disclaimers
+│   ├── services/
+│   │   ├── advisoryEngine.js        # Transparent rule-based agronomic scoring engine
+│   │   └── storage.js               # IPC / localStorage abstraction layer
+│   ├── data/
+│   │   ├── cropData.js              # Knowledge base for 12+ major Indian crops
+│   │   └── referenceData.js         # States, soils, seasons, fertilizer stages, and precautions
+│   └── styles/
+│       └── index.css                # Accessible design system with CSS custom properties
+├── tests/
+│   ├── advisoryEngine.test.js       # Scoring algorithms, validation, and label tests
+│   └── cropDataAndStorage.test.js   # Dataset integrity and schema verification tests
+├── index.html                       # HTML template
+├── vite.config.js                   # Vite bundler & Vitest test runner configuration
+└── package.json                     # Dependency manifests and run scripts
 ```
 
-## Installation
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology | Version | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Desktop Shell** | Electron | ^32.1.2 | Native cross-platform window, filesystem access, IPC bridge |
+| **Frontend Framework** | React | ^18.3.1 | Declarative component UI & reactive state management |
+| **Bundler & Dev Server** | Vite | ^5.4.8 | Lightning-fast HMR and production bundle optimization |
+| **Testing Framework** | Vitest | ^2.1.2 | Automated unit & data integrity testing |
+| **Styling** | Vanilla CSS3 | Modern CSS | Custom CSS variables, responsive flex/grid, accessible colors |
+| **Persistence** | Node.js `fs` / JSON | Native | Local encrypted application data storage |
+
+---
+
+## 🚀 Installation & Setup
 
 ### Prerequisites
-- Node.js v18 or higher
-- npm v9 or higher
+- **Node.js** (v18.0.0 or higher recommended)
+- **npm** (v9.0.0 or higher)
 
-### Setup
+### Step 1: Clone the Repository
 ```bash
-# Clone the repository
 git clone https://github.com/dhruvchillguy/Smart-Crop-Advisory-System-for-Small-and-Marginal-Farmers.git
 cd Smart-Crop-Advisory-System-for-Small-and-Marginal-Farmers
+```
 
-# Install dependencies
+### Step 2: Install Dependencies
+```bash
 npm install
 ```
 
-## Running the Application
+---
 
-### Development Mode (Browser)
+## 💻 Running the Application
+
+### Option A: Desktop Application (Production Mode — Recommended for Demo)
+Builds the frontend bundle and immediately opens the native Electron application:
 ```bash
-npm run dev
+npm run electron:prod
 ```
-Open http://localhost:5173 in your browser.
+*Alternatively, you can run `npm run build` followed by `npm start`.*
 
-### Desktop Application (Electron)
+### Option B: Desktop Application (Development Mode)
+Launches Vite dev server with Hot Module Replacement connected to Electron:
 ```bash
 npm run electron:dev
 ```
 
-### Production Build
+### Option C: Browser Development Mode
+Runs the UI in any web browser without Electron (using `localStorage` fallback):
 ```bash
-npm run build
-npm run electron:build
+npm run dev
 ```
+Navigate to: `http://localhost:5173`
 
-## Testing
+---
+
+## 🧪 Automated Testing
+
+The project includes unit and data integrity test suites running on Vitest:
 ```bash
-# Run tests
+# Run all automated tests
 npm test
 
 # Run tests in watch mode
 npm run test:watch
 ```
 
-## Limitations
+### Test Coverage Highlights:
+- **Rule Scoring Accuracy**: Verifies multi-parameter weights for state, soil, season, and water access.
+- **Edge-Case Handling**: Tests missing inputs, incompatible soil-crop pairings, and invalid seasons.
+- **Agronomic Dataset Validation**: Enforces required properties across all crop entries in `cropData.js`.
+- **Reference Integrity**: Verifies state coverage, soil profiles, and fertilizer stage definitions.
 
-- Weather data uses sample/manual entry; live weather requires an API key
-- Crop recommendations are rule-based and intended as general guidance only
-- The crop knowledge dataset covers common Indian crops but is not exhaustive
-- This is a decision-support tool, not a substitute for local agricultural extension services
+---
 
-## Disclaimer
+## 👨‍🏫 Faculty Demonstration Script
 
-⚠️ **Important**: This application provides **general agricultural guidance** based on commonly known farming practices. Actual crop selection should consider local soil test results, current weather forecasts, market conditions, and advice from agricultural extension officers. The recommendations are not guaranteed and should be used as one input among many in farming decisions.
+To present this project to examiners or faculty, follow these sequential steps:
 
-## License
+1. **Launch Desktop App**:
+   Run `npm run electron:prod`. Point out the native Electron window framing and clean agricultural theme.
+2. **Dashboard Overview**:
+   Highlight the quick stat cards ("Crops in Database: 12", "Active Season: Kharif / Rabi", "Offline Mode: Active").
+3. **Setup Farm Profile ("My Farm")**:
+   - Enter farmer name (e.g., *Ramesh Kumar*), State (*Punjab* or *Uttar Pradesh*), Farm Area (*2.5 Acres*), Soil Type (*Alluvial*), Irrigation (*Yes*).
+   - Click **Save Profile**. Show that data persists immediately.
+4. **Generate Crop Recommendations ("Crop Advice")**:
+   - The form pre-fills from the profile.
+   - Select season (*Rabi*).
+   - Click **Get Crop Recommendations**.
+   - Show the resulting cards (e.g., *Wheat* with high match percentage, transparent scoring reasons, water requirements, and sowing instructions).
+   - Click **Save This Recommendation**. Notice the toast notification.
+5. **Inspect Saved Recommendations ("Saved Advice")**:
+   - Navigate to **Saved Advice** to view the saved Wheat advisory record.
+   - Demonstrate deleting or reviewing past advice.
+6. **Show Soil & Irrigation Guidance**:
+   - Select *Black Soil* or *Alluvial Soil* to reveal tailored preparation tips, drainage requirements, and suitable crops.
+7. **Show Fertilizer Guide**:
+   - Select *Rice (Paddy)* or *Wheat* to display basal, tillering, and flowering stage NPK guidelines with safety warnings.
+8. **Demonstrate Automated Tests**:
+   - Run `npm test` in the terminal to show all test suites passing.
 
-MIT License
+---
 
-## Author
+## ⚠️ Agricultural & Technical Disclaimer
 
-Dhruv Khare — College Desktop Application Project
+> **Educational & Decision-Support Notice:**
+> This desktop application is built as an academic engineering project to demonstrate software architecture, rule-based inference, and offline desktop development for rural settings. 
+> Actual farming recommendations must always be verified with local agronomic authorities, soil testing laboratories, and Krishi Vigyan Kendra (KVK) extension officers.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+Developed by **Dhruv Khare** for College Desktop Application Examination.
