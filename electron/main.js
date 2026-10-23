@@ -1,0 +1,128 @@
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const fs = require('fs');
+
+// Data storage path
+const userDataPath = app.getPath('userData');
+const dataFilePath = path.join(userDataPath, 'smart-crop-data.json');
+
+// Read stored data
+function readData() {
+  try {
+    if (fs.existsSync(dataFilePath)) {
+      const raw = fs.readFileSync(dataFilePath, 'utf-8');
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error('Error reading data file:', err);
+  }
+  return { profile: null, savedRecommendations: [] };
+}
+
+// Write stored data
+function writeData(data) {
+  try {
+    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    console.error('Error writing data file:', err);
+    return false;
+  }
+}
+
+function createWindow() {
+  const mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    minWidth: 900,
+    minHeight: 600,
+    title: 'Smart Crop Advisory System',
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+      sandbox: false,
+    },
+  });
+
+  // In development, load Vite dev server
+  if (process.env.NODE_ENV !== 'production' && process.env.VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+  } else if (process.env.NODE_ENV !== 'production') {
+    mainWindow.loadURL('http://localhost:5173');
+  } else {
+    // In production, load the built files
+    mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+  }
+
+  // Open DevTools in development
+  if (process.env.NODE_ENV !== 'production') {
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
+  }
+
+  mainWindow.setMenuBarVisibility(false);
+}
+
+// IPC Handlers for persistent data
+
+ipcMain.handle('data:getProfile', () => {
+  const data = readData();
+  return data.profile || null;
+});
+
+ipcMain.handle('data:saveProfile', (event, profile) => {
+  if (!profile || typeof profile !== 'object') {
+    return { success: false, error: 'Invalid profile data' };
+  }
+  const data = readData();
+  data.profile = profile;
+  const ok = writeData(data);
+  return { success: ok };
+});
+
+ipcMain.handle('data:getSavedRecommendations', () => {
+  const data = readData();
+  return data.savedRecommendations || [];
+});
+
+ipcMain.handle('data:saveRecommendation', (event, recommendation) => {
+  if (!recommendation || typeof recommendation !== 'object') {
+    return { success: false, error: 'Invalid recommendation data' };
+  }
+  const data = readData();
+  if (!Array.isArray(data.savedRecommendations)) {
+    data.savedRecommendations = [];
+  }
+  recommendation.id = Date.now().toString();
+  recommendation.savedAt = new Date().toISOString();
+  data.savedRecommendations.push(recommendation);
+  const ok = writeData(data);
+  return { success: ok, id: recommendation.id };
+});
+
+ipcMain.handle('data:deleteRecommendation', (event, id) => {
+  if (!id || typeof id !== 'string') {
+    return { success: false, error: 'Invalid recommendation ID' };
+  }
+  const data = readData();
+  if (!Array.isArray(data.savedRecommendations)) {
+    return { success: false, error: 'No recommendations found' };
+  }
+  data.savedRecommendations = data.savedRecommendations.filter(r => r.id !== id);
+  const ok = writeData(data);
+  return { success: ok };
+});
+
+app.whenReady().then(createWindow);
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
+});
+
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
